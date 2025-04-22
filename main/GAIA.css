@@ -1,0 +1,780 @@
+/* ======= BODY ======= */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* ======= BACKGROUND OVERLAY ======= */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/GAIAbg.gif') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+}
+
+/* ======= NAVBAR-SAR (BOTTOM NAVBAR) ======= */
+.navbar-sar {
+    position: fixed;  /* Keeps navbar fixed at the bottom */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Adds blur effect */
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    z-index: 500;
+    height: 60px; /* Fixed height for navbar */
+    overflow: visible; /* Allows images to extend beyond navbar */
+}
+
+
+.nav-item {
+    position: relative;
+    margin: 0 15px; /* Space between items */
+}
+
+.nav-item img {
+    position: relative;
+    top: -5px;
+    width: 60px;
+    height: auto;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+    cursor: pointer;
+    z-index: 100;
+    border: 3px solid transparent; /* Start with no visible border */
+    border-radius: 5px; /* Optional for rounded corners */
+}
+
+
+.nav-item img:hover {
+    top: -100px;
+    width: 180px;
+    opacity: 0.8;
+    z-index: 200; /* Higher than preview */
+}
+
+.nav-item img.active {
+    opacity: 0.2; /* Make the whole image transparent */
+}
+
+/* Custom Tooltip Styling */
+.custom-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  max-width: 500px; /* Set a max width */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis if text overflows */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 10000;
+  pointer-events: none;
+}
+
+
+/* Show tooltip only when hovering over the img */
+.nav-item img:hover + .custom-tooltip {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(-40px) !important; /* Moves tooltip higher */
+}
+
+
+/* Container for frames - uses a grid layout SAR-frame*/
+.SAR-frame {
+    display: grid;
+    width: 100%;
+    flex: 1;
+    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(50%, 1fr));
+    gap: 5px; /* Optional: Adds spacing between frames */
+    transition: grid-template-columns 0.3s ease-in-out, grid-template-rows 0.3s ease-in-out;
+
+    margin-top: 50px;  /* Push it down below the burger menu and close all button */
+    margin-bottom: 50px; /* Keep space above navbar */
+    max-height: calc(100vh - 120px); /* Adjust height dynamically */
+    overflow: auto;
+}
+
+/* Title for each frame */
+.frame-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Make it full width */
+    height: 35px; /* Slightly increased height */
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.85);
+    padding-left: 15px;
+    display: flex;
+    align-items: center; /* Center text vertically */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box; /* Prevent overflow issues */
+}
+
+/* Ensure iframe is pushed down */
+.frame-wrapper {
+    position: relative;
+    padding-top: 35px; /* Adjust padding to make space for the title */
+}
+
+/* Visible state: fully opaque and scaled to normal */
+.frame-wrapper.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* Iframe styling to take full space of the wrapper */
+iframe {
+    width: 99.7%;
+    height: 100%;
+    border-style: solid;
+    border-width: 0.5px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    background: #eb1c24;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+.close-btn:hover {
+    background: darkred;
+    transform: scale(1.1);
+}
+
+/* MAX button styling */
+.max-btn {
+    position: absolute; /* Fix position */
+    top: 3px;
+    right: 50px; /* Adjust this so it's beside close button */
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background: #1c5eeb;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease-in-out;
+}
+
+.max-btn:hover {
+    background: rgb(26, 58, 163);
+    transform: scale(1.1);
+}
+
+/* Enhanced Highlight Effect */
+.highlight {
+  outline: 5px solid #eb1c24;
+  box-shadow: 0 0 15px 5px rgba(235, 28, 36, 0.8); /* Stronger glow effect */
+  transition: outline 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  z-index: 10000;
+}
+
+
+
+/*Preview window*/
+.preview-frame {
+    position: fixed;
+    width: 800px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 50; /* Lower than nav img */
+}
+
+.preview-frame iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.preview-header {
+    background:  #eb1c24;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+
+/*close all window*/
+.close-all-button {
+    position: fixed;
+    top: 7px;
+    right: 10px;
+    background-color: #444543;
+    color: white;
+    border: none;
+    padding: 8px 13px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgb(57, 57, 57);
+    transition: background-color 0.3s ease;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+}
+
+.close-all-button::before {
+    content: url('images/closeAllButton.png'); /* Replace with the correct path to your close icon */
+    margin-right: 5px; /* Space between icon and text */
+    width: 12px; /* Set the width of the icon to match the font size */
+    height: 12px; /* Set the height of the icon to match the font size */
+    display: inline-block; /* Ensure it respects the width and height */
+    vertical-align: middle; /* Align icon with the text */
+    position: relative;
+    top: -2px; /* Adjust this value to move the icon a little bit to the top */
+}
+
+.close-all-button:hover {
+    background-color:  #eb1c24;
+}
+
+
+/* Burger Menu */
+.burger-button {
+  font-size: 32px;
+  cursor: pointer;
+  transition: transform 0.4s ease-in-out;
+  position: fixed;
+  top: 10px;
+  left: 20px;
+  z-index: 10001; /* Ensure it's on top of everything */
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+.burger-button.active {
+  transform: rotate(90deg);
+  z-index: 10002; /* Ensure it stays on top */
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000; /* Higher than navbar-sar and other elements */
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: 20px;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.menu {
+  flex: 1;
+  padding: 20px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu ul li {
+  margin-bottom: 8px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #333333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.4s ease;
+  border-radius: 5px;
+}
+
+.menu ul li a i {
+  margin-right: 10px;
+  width: 24px;
+  text-align: center;
+}
+
+.menu ul li a:hover {
+  background-color: #ff0000;
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.logout {
+  padding: 20px;
+  margin-top: auto;
+}
+
+.logout a {
+  background-color: #ff0000;
+  color: #ffffff !important; /* Ensure white text */
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.4s ease, transform 0.4s ease;
+}
+
+/* Ensure no blue color on link states */
+.logout a:link, 
+.logout a:visited, 
+.logout a:focus, 
+.logout a:active {
+  color: #ffffff !important; /* Force white text */
+  background-color: #ff0000 !important; /* Keep the red background */
+  outline: none; /* Remove focus outline */
+}
+
+.logout a:hover {
+  background-color: #cc0000 !important;
+  transform: scale(1.08);
+}
+
+.logout a i {
+  margin-right: 10px;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
+/* Modal Overlay */
+.modal {
+  display: none; /* Hide modal initially */
+  position: fixed;
+  z-index: 1000; /* Higher than other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;     
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  width: 50%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
+}
+
+/* Input Container */
+.input-container {
+  margin: 10px 0;
+  position: relative;
+}
+
+.input-container input, .input-container textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Clear Button for Inputs */
+.clear-input {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: gray;
+}
+
+.clear-input:hover {
+  color: red;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.clear-image {
+  background: #eb1c24;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.clear-image:hover {
+  background: darkred;
+  transform: scale(1.1);
+}
+
+.clear-button {
+  background: #eb1c24;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.clear-button:hover {
+  background: darkred;
+  transform: scale(1.1);
+}
+
+.save-button {
+  background: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.save-button:hover {
+  background: #218838;
+  transform: scale(1.1);
+}
+
+
+.plus-button {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.plus-button::before {
+  content: "+";
+  font-size: 20px;
+}
+
+.plus-button:hover {
+  background-color: #45a049; /* Darker green */
+  transform: scale(1.1);
+}
+
+.manage-button {
+  background-color: #0000FF; /* Green background */
+  color: white; /* White text */
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.manage-button::before {
+  content: "";
+  font-size: 20px;
+}
+
+.manage-button:hover {
+  background-color: #00008B;
+  transform: scale(1.1);
+}
+
+
+
+h2 {
+  text-align: center;
+  width: 100%;
+}
+
+#manageModal {
+  display: none;
+  position: flex;
+  overflow-y: auto;
+  
+}
+
+/* Table Styling */
+.manage-table {
+  width: 100%;  /* Increased width */
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.manage-table th, .manage-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.manage-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.manage-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.manage-table tr:hover {
+  background-color: #ddd;
+}
+
+/* Button Styling */
+button {
+  cursor: pointer;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Edit Button */
+button.edit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+button.edit-button:hover {
+  background-color: #218838;
+}
+
+/* Delete Button */
+button.delete-button {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 5px;
+}
+
+button.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Close Button */
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #manageModal {
+      width: 90%;
+      height: 60%;
+  }
+
+  .manage-table th, .manage-table td {
+      font-size: 12px;
+      padding: 8px;
+  }
+
+  button {
+      font-size: 12px;
+      padding: 6px 10px;
+  }
+}
+
+
+
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  padding: 20px;
+  overflow-y: auto; /* scrolls when content exceeds height */
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Centering the Heading */
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Form Layout */
+#editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Label Styling */
+#editForm label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Input Fields */
+#editForm input,
+#editForm textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/* Icon Row */
+#editForm img {
+  display: block;
+  margin: 10px 0;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* Button Styling */
+.clear-button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+.clear-button:hover {
+  background-color: #c9302c;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}

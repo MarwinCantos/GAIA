@@ -1,0 +1,18 @@
+ALTER TABLE admin ADD COLUMN image_states VARCHAR(50) NOT NULL DEFAULT '0,0,0,0,0,0,0,0,0';
+
+
+//data base for sar projects
+CREATE TABLE sars_projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    link VARCHAR(255) NOT NULL,
+    icon_image VARCHAR(255) DEFAULT NULL,
+    about_image VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+//avatar
+ALTER TABLE account ADD Avatar VARCHAR(255) DEFAULT 'avatars/avatar1.png';
+

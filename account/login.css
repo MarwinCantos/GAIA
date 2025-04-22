@@ -1,0 +1,313 @@
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    position: relative;
+}
+
+/* Background Overlay */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('images/login_bg.jpg') no-repeat center center/cover;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.overlay {
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Logo Containers */
+.logo-container,
+.right-logo {
+    position: absolute;
+    top: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    left: 16px;
+}
+
+.right-logo {
+    right: 16px;
+}
+
+.logo-container img,
+.right-logo img {
+    height: 50px;
+}
+
+.logo-container div {
+    margin-left: 8px;
+    color: #656565;
+}
+
+.logo-container div p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Login Form */
+.login-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+.login-container img {
+    margin-bottom: 16px;
+}
+
+/* Input Fields */
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    padding: 10px;
+    margin-bottom: 16px;
+    background-color: #fff;
+}
+
+.input-group i {
+    color: #888;
+    margin-right: 8px;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent;
+    font-size: 16px;
+    padding: 5px;
+}
+
+/* Toggle Password Button */
+.toggle-password {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-password i {
+    color: #555;
+    font-size: 16px;
+}
+
+                            
+
+.password-container {
+  display: flex;
+  align-items: center;
+}
+
+input[type="password"] {
+  flex: 1;
+}
+
+.eye-icon {
+    cursor: pointer;
+    margin-left: 8px;
+    color: #888;
+    font-size: 16px;
+}
+.eye-icon:hover {
+    color: #333;
+}
+
+
+
+#otpForm {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#otpInput {
+    width: calc(100% - 24px);
+    padding: 10px;
+    margin-bottom: 10px; /* Adjust this to control spacing */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#verifyOtp {
+    background-color: #eb1c24;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50px;
+    width: calc(100% - 24px);
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#verifyOtp:hover {
+    background-color: #c4161b;
+    transform: scale(1.05);
+}
+
+
+/* Buttons */
+.button,
+.login-button {
+    background-color: #eb1c24;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover,
+.login-button:hover {
+    background-color: #c4161b;
+    transform: scale(1.05);
+}
+
+/* Footer Links */
+.footer-links {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.footer-links a {
+    margin: 0 35px; /* Adds horizontal space between links */
+    color: #555;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.modal-content h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Modal Inputs */
+.modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Modal Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.submit-btn, .close-btn {
+  border: none;
+  padding: 12px 40px; 
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 120px; 
+  text-align: center;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.close-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.close-btn:hover {
+  background-color: #c4161b;
+}
+
+
+ 
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
