@@ -25,7 +25,8 @@ $con->close();
     <title>Project GAIA</title>
     <link rel="icon" href="/GAIA/favicon.png" type="image/png">
     <link rel="stylesheet" href="../about/about.css">
-    <link href="https://cdnjs.clo../GAIA/account/login.cssudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>

@@ -1,12 +1,21 @@
 Options +MultiViews
-
+RewriteEngine On
 RewriteBase /
 
-## Remove extensions
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+# ✅ Allow upload.php to bypass all rewrite rules
+RewriteRule ^upload\.php$ - [L]
 
-## Redirect from extensions to non-extensions
-RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?] [NC]
+# ✅ If file or directory exists, don't rewrite (important for uploaded images)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ✅ Redirect .php frontend pages to extensionless (e.g., /about.php → /about)
+RewriteCond %{THE_REQUEST} \s/((?!api/|uploads/|backend/)[^?\s]+)\.php[\s?] [NC]
 RewriteRule ^ /%1 [R=301,NE,L]
+
+# ✅ Internally rewrite extensionless frontend URLs to .php
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/uploads/
+RewriteCond %{REQUEST_URI} !^/backend/
+RewriteRule ^([^\.\/]+)$ $1.php [NC,L]

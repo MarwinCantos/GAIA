@@ -56,8 +56,7 @@ body::before {
 
 
 .nav-item img:hover {
-  top: -100px;
-  width: 150px;
+  transform: scale(0.9);
   opacity: 0.8;
   z-index: 200; /* Higher than preview */
 }
@@ -68,21 +67,25 @@ body::before {
 
 /* Custom Tooltip Styling */
 .custom-tooltip {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  white-space: nowrap;
-  visibility: hidden; /* Keep hidden initially */
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  left: 50%;
-  transform: translateX(-50%) translateY(-20px); /* Center tooltip */
-  z-index: 10000;
-  pointer-events: none; /* Prevents interference with hover events */
+position: absolute;
+background-color: rgba(0, 0, 0, 0.8);
+color: white;
+padding: 5px 10px;
+border-radius: 5px;
+font-size: 14px;
+max-width: 500px; /* Set a max width */
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis; /* Add ellipsis if text overflows */
+visibility: hidden;
+opacity: 0;
+transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+left: 50%;
+transform: translateX(-50%) translateY(-20px);
+z-index: 10000;
+pointer-events: none;
 }
+
 
 /* Show tooltip only when hovering over the img */
 .nav-item img:hover + .custom-tooltip {
@@ -90,9 +93,6 @@ body::before {
   opacity: 1 !important;
   transform: translateX(-50%) translateY(-40px) !important; /* Moves tooltip higher */
 }
-
-
-
 
 /* Container for frames - uses a grid layout SAR-frame*/
 .SAR-frame {

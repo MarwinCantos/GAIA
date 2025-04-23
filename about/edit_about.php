@@ -36,10 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Handle file upload if a new image is provided
     if (!empty($_FILES['about_images']['name'])) {
         $targetDir = "../main/images/uploads/about_images/";
-        
+
         // Extract file extension (e.g., .png, .jpg)
-        $fileExtension = pathinfo($_FILES["about_images"]["name"], PATHINFO_EXTENSION);
-        
+        $fileExtension = strtolower(pathinfo($_FILES["about_images"]["name"], PATHINFO_EXTENSION));
+
+        // Validate file extension (allow only jpg and png)
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid file type. Only JPG and PNG are allowed.']);
+            exit();
+        }
+
         // Rename new image using the project title
         $newImageName = strtolower(str_replace(" ", "_", $title)) . "." . $fileExtension;
         $newImagePath = $targetDir . $newImageName;

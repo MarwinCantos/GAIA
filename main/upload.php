@@ -1,12 +1,13 @@
 <?php
 session_start();
+
 require_once '../account/connect.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['email'])) {
     header("Location: ../GAIA/login.php"); // Redirect to login page
     exit();
-}
+}   
 
 // Set the target directories for the uploaded images
 $targetDirIcon = "../main/images/uploads/icons/";
@@ -21,12 +22,13 @@ if (!file_exists($targetDirAbout)) {
 }
 
 // Function to handle file upload and renaming
+// Function to handle file upload and renaming
 function uploadFile($file, $targetDir) {
     $fileType = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
 
-    // Allow only PNG files
-    if ($fileType !== 'png') {
-        return ["error" => "Sorry, only PNG files are allowed."];
+    // Allow only JPG and PNG files
+    if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
+        return ["error" => "Sorry, only JPG, JPEG, and PNG files are allowed."];
     }
 
     // Get the current number of files in the directory
@@ -34,10 +36,10 @@ function uploadFile($file, $targetDir) {
     $imageCount = count($existingFiles) - 2; // Subtract 2 to exclude '.' and '..'
 
     // Generate a new filename
-    $newFilename = ($imageCount + 1) . ".png"; // 1.png, 2.png, etc.
+    $newFilename = ($imageCount + 1) . "." . $fileType; // e.g., 1.jpg, 2.png
     $targetFile = $targetDir . $newFilename;
 
-    // Check if the file already exists (in case of an unexpected error)
+    // Check if the file already exists
     if (file_exists($targetFile)) {
         return ["error" => "Sorry, file already exists."];
     }
@@ -54,6 +56,7 @@ function uploadFile($file, $targetDir) {
         return ["error" => "Sorry, there was an error uploading your file."];
     }
 }
+
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

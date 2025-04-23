@@ -105,12 +105,10 @@ function showPreview(icon, url, title) {
     let preview = document.createElement("div");
     preview.className = "preview-frame";
 
-    // Create header
     let header = document.createElement("div");
     header.className = "preview-header";
-    header.innerText = title || "Preview"; // Use the provided title
+    header.innerText = title || "Preview";
 
-    // Create iframe
     let iframe = document.createElement("iframe");
     iframe.src = url;
     iframe.frameBorder = "0";
@@ -119,7 +117,6 @@ function showPreview(icon, url, title) {
     preview.appendChild(iframe);
     document.body.appendChild(preview);
 
-    // Apply styles using CSS
     Object.assign(preview.style, {
         position: "fixed",
         top: "50%",
@@ -137,7 +134,7 @@ function showPreview(icon, url, title) {
     });
 
     Object.assign(header.style, {
-        background: " #eb1c24",
+        background: "#eb1c24",
         color: "#fff",
         padding: "10px",
         fontSize: "16px",
@@ -152,8 +149,25 @@ function showPreview(icon, url, title) {
         flexGrow: "1"
     });
 
-    // Remove preview when mouse leaves the icon
-    icon.onmouseleave = () => preview.remove();
+    let timeout;
+
+    const removePreview = () => {
+        if (preview && preview.parentNode) {
+            preview.remove();
+        }
+    };
+
+    const scheduleRemove = () => {
+        timeout = setTimeout(removePreview, 200); // short delay
+    };
+
+    const cancelRemove = () => {
+        clearTimeout(timeout);
+    };
+
+    icon.addEventListener("mouseleave", scheduleRemove);
+    preview.addEventListener("mouseenter", cancelRemove);
+    preview.addEventListener("mouseleave", scheduleRemove);
 }
 
 // Array to store references to opened windows
